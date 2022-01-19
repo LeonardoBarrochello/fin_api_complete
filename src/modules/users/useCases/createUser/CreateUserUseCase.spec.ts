@@ -1,4 +1,5 @@
 import { InMemoryUsersRepository } from "../../repositories/in-memory/InMemoryUsersRepository";
+import { CreateUserError } from "./CreateUserError";
 import { CreateUserUseCase } from "./CreateUserUseCase"
 
 
@@ -21,6 +22,24 @@ describe("Create user" , () =>{
             })
             console.log(user);
       })
+
+      it("Should not be able to create user with email already used" ,  () => {
+
+        expect(async ()=>{
+          await createUserUseCase.execute({
+            name : "Name",
+            email : "email@email.com",
+            password:"121313"
+          })
+          await createUserUseCase.execute({
+            name : "Name",
+            email : "email@email.com",
+            password:"121313"
+        })
+        }).rejects.toBeInstanceOf(CreateUserError)
+
+
+  })
 
 
 })
