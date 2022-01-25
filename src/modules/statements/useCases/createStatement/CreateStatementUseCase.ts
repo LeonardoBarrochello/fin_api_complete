@@ -18,12 +18,17 @@ export class CreateStatementUseCase {
   async execute({ user_id, type, amount, description }: ICreateStatementDTO) {
     const user = await this.usersRepository.findById(user_id);
 
+    console.log(user)
+
     if(!user) {
       throw new CreateStatementError.UserNotFound();
     }
 
     if(type === 'withdraw') {
       const { balance } = await this.statementsRepository.getUserBalance({ user_id });
+
+      console.log("balance --> " , balance)
+      console.log("amount --> " , amount)
 
       if (balance < amount) {
         throw new CreateStatementError.InsufficientFunds()
