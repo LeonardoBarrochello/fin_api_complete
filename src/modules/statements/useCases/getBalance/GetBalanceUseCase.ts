@@ -9,6 +9,7 @@ interface IRequest {
   user_id: string;
 }
 
+
 interface IResponse {
   statement: Statement[];
   balance: number;
@@ -24,7 +25,7 @@ export class GetBalanceUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute({ user_id }: IRequest): Promise<IResponse> {
+  async execute({ user_id }: IRequest): Promise<any> {
     const user = await this.usersRepository.findById(user_id);
 
     if(!user) {
@@ -36,6 +37,8 @@ export class GetBalanceUseCase {
       with_statement: true
     });
 
-    return balance as IResponse;
+    console.log(`balance -->` , balance)
+
+    return balance as IResponse ;
   }
 }
